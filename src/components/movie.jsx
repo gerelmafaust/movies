@@ -7,6 +7,7 @@ const Movie = ({ movie, onDelete }) => {
       <td>{movie.genre.name}</td>
       <td>{movie.numberInStock}</td>
       <td>{movie.dailyRentalRate}</td>
+      <td>lalalala</td>
       <td>
         <button onClick={onDelete}>Delete</button>
       </td>
