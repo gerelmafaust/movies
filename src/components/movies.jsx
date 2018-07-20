@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getMovies, deleteMovie } from "../services/fakeMovieService";
+import { getMovies } from "../services/fakeMovieService";
 import Header from "./header";
 import Movie from "./movie";
 
@@ -10,7 +10,13 @@ class Movies extends Component {
 
   handleDelete = movie => {
     const movies = this.state.movies.filter(m => m !== movie);
-    deleteMovie(movie._id);
+    this.setState({ movies });
+  };
+
+  handleLike = movie => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index].like = !movies[index].like;
     this.setState({ movies });
   };
 
@@ -26,6 +32,7 @@ class Movies extends Component {
                   key={this.state.movies.indexOf(movie)}
                   movie={movie}
                   onDelete={() => this.handleDelete(movie)}
+                  onLike={() => this.handleLike(movie)}
                 />
               );
             })}
