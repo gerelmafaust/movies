@@ -11,12 +11,16 @@ import Pagination from "./common/pagination";
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
-    genres: getGenres(),
-    currentGenre: "lala",
+    movies: [],
+    genres: [],
     pageSize: 4,
     currentPage: 1
   };
+
+  componentDidMount() {
+    const genres = [{ name: "All genres" }, ...getGenres()];
+    this.setState({ movies: getMovies(), genres });
+  }
 
   handleDelete = movie => {
     const movies = this.state.movies.filter(m => m !== movie);
@@ -34,22 +38,38 @@ class Movies extends Component {
     this.setState({ currentPage: page });
   };
 
+  handleGenreSelect = genre => {
+    this.setState({ selectedGenre: genre, currentPage: 1 });
+  };
+
   render() {
-    const { length: count } = this.state.movies;
     const {
       pageSize,
       currentPage,
       movies: allMovies,
-      currentFilter,
-      genres: filters
+      genres: filters,
+      selectedGenre
     } = this.state;
 
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const filteredMovies =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter(m => m.genre._id === selectedGenre._id)
+        : allMovies;
+
+    const count = filteredMovies.length;
+
+    const movies = paginate(filteredMovies, currentPage, pageSize);
+
+    console.log(movies);
 
     return (
       <React.Fragment>
         <Header moviesCount={count} />
-        <Filters filters={filters} currentFilter={currentFilter} />
+        <Filters
+          items={filters}
+          selectedItem={selectedGenre}
+          onItemSelect={this.handleGenreSelect}
+        />
         <table>
           <tbody>
             {movies.map(movie => {
