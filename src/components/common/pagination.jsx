@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Pagination = props => {
-  const { itemsCount, pageSize, currentPage, onPageChange } = props;
-
+const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
   const pagesCount = Math.ceil(itemsCount / pageSize);
   const pages = Array.from({ length: pagesCount }, (x, i) => i + 1);
 
@@ -11,19 +9,17 @@ const Pagination = props => {
 
   return (
     <ul className="pagination">
-      {pages.map(page => {
-        return (
-          <li key={page}>
-            <a onClick={() => onPageChange(page)}>
-              {page === currentPage ? (
-                <span style={{ fontWeight: "bold" }}>{page}</span>
-              ) : (
-                page
-              )}
-            </a>
-          </li>
-        );
-      })}
+      {pages.map(page => (
+        <li key={page}>
+          <a onClick={() => onPageChange(page)}>
+            {page === currentPage ? (
+              <span style={{ fontWeight: "bold" }}>{page}</span>
+            ) : (
+              page
+            )}
+          </a>
+        </li>
+      ))}
     </ul>
   );
 };

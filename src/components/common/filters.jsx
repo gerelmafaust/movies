@@ -1,15 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const Filters = props => {
-  const {
-    items,
-    textProperty,
-    valueProperty,
-    selectedItem,
-    onItemSelect
-  } = props;
-
+const Filters = ({
+  items,
+  textProperty,
+  valueProperty,
+  selectedItem,
+  onItemSelect
+}) => {
   return (
     <ul className="filters">
       {items.map(filter => {

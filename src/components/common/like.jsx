@@ -1,9 +1,9 @@
 import React from "react";
 
-const Like = props => {
-  let string = props.like ? "Liked" : "like";
+const Like = ({ liked, onClick }) => {
+  let string = liked ? "Liked" : "like";
 
-  return <button onClick={props.onClick}>{string}</button>;
+  return <button onClick={onClick}>{string}</button>;
 };
 
 export default Like;
