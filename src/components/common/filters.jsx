@@ -11,12 +11,12 @@ const Filters = ({
     <ul className="filters">
       {items.map(filter => {
         return (
-          <li onClick={() => onItemSelect(filter)} key={filter[valueProperty]}>
-            {selectedItem !== filter ? (
-              filter[textProperty]
-            ) : (
-              <span style={{ fontWeight: "bold" }}>{filter[textProperty]}</span>
-            )}
+          <li
+            onClick={() => onItemSelect(filter)}
+            key={filter[valueProperty]}
+            className={selectedItem === filter ? "selected" : null}
+          >
+            {filter[textProperty]}
           </li>
         );
       })}
