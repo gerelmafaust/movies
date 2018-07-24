@@ -20,6 +20,14 @@ nav a {
   margin-right: 1em;
 }
 
+small {
+  margin-left: 1em;
+}
+
+input {
+  margin-bottom: 1em;
+}
+
 .selected {
   font-weight: bold;
 }
