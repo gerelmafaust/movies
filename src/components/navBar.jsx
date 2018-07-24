@@ -14,6 +14,9 @@ const NavBar = () => {
       <NavLink activeClassName="selected" to="/rentals">
         Rentals
       </NavLink>
+      <NavLink activeClassName="selected" to="/login">
+        Login
+      </NavLink>
     </nav>
   );
 };
