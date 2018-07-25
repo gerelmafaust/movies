@@ -19,8 +19,4 @@ const Select = ({ name, label, options, error, ...rest }) => {
   );
 };
 
-Select.defaultProps = {
-  focus: false
-};
-
 export default Select;

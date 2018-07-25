@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import _ from "lodash";
+import { orderBy } from "lodash";
 
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
@@ -18,11 +18,12 @@ class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
+    searchQuery: "",
+    selectedGenre: null,
     sortColum: {
       path: "title",
       order: "asc"
-    },
-    searchQuery: ""
+    }
   };
 
   componentDidMount() {
@@ -47,11 +48,15 @@ class Movies extends Component {
   };
 
   handleGenreSelect = genre => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ selectedGenre: genre, currentPage: 1, searchQuery: "" });
   };
 
   handleSort = sortColum => {
     this.setState({ sortColum });
+  };
+
+  handleSearch = value => {
+    this.setState({ searchQuery: value, currentPage: 1 });
   };
 
   handleChange = ({ currentTarget: input }) => {
@@ -71,23 +76,24 @@ class Movies extends Component {
       currentPage,
       movies: allMovies,
       selectedGenre,
-      sortColum
+      sortColum,
+      searchQuery
     } = this.state;
 
-    const filteredMovies =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter(m => m.genre._id === selectedGenre._id)
-        : allMovies;
+    let filtered = allMovies;
 
-    const sorted = _.orderBy(
-      filteredMovies,
-      [sortColum.path],
-      [sortColum.order]
-    );
+    if (searchQuery) {
+      filtered = allMovies.filter(m =>
+        m.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    } else if (selectedGenre && selectedGenre._id)
+      filtered = allMovies.filter(m => m.genre._id === selectedGenre._id);
+
+    const sorted = orderBy(filtered, [sortColum.path], [sortColum.order]);
 
     const movies = paginate(sorted, currentPage, pageSize);
 
-    return { totalCount: filteredMovies.length, data: movies };
+    return { totalCount: filtered.length, data: movies };
   };
 
   render() {

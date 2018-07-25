@@ -4,7 +4,12 @@ const Input = ({ name, label, focus, error, ...rest }) => {
   return (
     <div>
       <label htmlFor={name}>{label}</label>
-      <input autoFocus={focus} id={name} name={name} {...rest} />
+      <input
+        autoFocus={focus ? focus : undefined}
+        id={name}
+        name={name}
+        {...rest}
+      />
       {error && <small>{error}</small>}
     </div>
   );

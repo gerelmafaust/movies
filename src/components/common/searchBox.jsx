@@ -1,7 +1,13 @@
 import React from "react";
 
-const SearchBox = props => {
-  return <input type="search" value={props.value} />;
+const SearchBox = ({ value, onChange }) => {
+  return (
+    <input
+      type="search"
+      value={value}
+      onChange={e => onChange(e.currentTarget.value)}
+    />
+  );
 };
 
 export default SearchBox;
