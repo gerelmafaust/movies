@@ -45,7 +45,6 @@ select {
 }
 
 .pagination {
-  grid-column: 2 / 3;
   padding: 0;
 }
 

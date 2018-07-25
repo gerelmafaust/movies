@@ -8,6 +8,7 @@ import { paginate } from "../utils/paginate";
 
 import MoviesHeader from "./moviesHeader";
 import Filters from "./common/filters";
+import SearchBox from "./common/searchBox";
 import MoviesTable from "./moviesTable";
 import Pagination from "./common/pagination";
 
@@ -20,7 +21,8 @@ class Movies extends Component {
     sortColum: {
       path: "title",
       order: "asc"
-    }
+    },
+    searchQuery: ""
   };
 
   componentDidMount() {
@@ -50,6 +52,17 @@ class Movies extends Component {
 
   handleSort = sortColum => {
     this.setState({ sortColum });
+  };
+
+  handleChange = ({ currentTarget: input }) => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateProperty(input);
+    if (errorMessage) errors[input.name] = errorMessage;
+    else delete errors[input.name];
+
+    const data = { ...this.state.data };
+    data[input.name] = input.value;
+    this.setState({ data, errors });
   };
 
   getPageData = () => {
@@ -83,7 +96,8 @@ class Movies extends Component {
       currentPage,
       genres,
       selectedGenre,
-      sortColum
+      sortColum,
+      searchQuery
     } = this.state;
 
     const { totalCount, data } = this.getPageData();
@@ -96,19 +110,22 @@ class Movies extends Component {
           selectedItem={selectedGenre}
           onItemSelect={this.handleGenreSelect}
         />
-        <MoviesTable
-          movies={data}
-          sortColum={sortColum}
-          onDelete={this.handleDelete}
-          onLike={this.handleLike}
-          onSort={this.handleSort}
-        />
-        <Pagination
-          itemsCount={totalCount}
-          pageSize={pageSize}
-          currentPage={currentPage}
-          onPageChange={this.handlePageChange}
-        />
+        <div>
+          <SearchBox value={searchQuery} onChange={this.handleSearch} />
+          <MoviesTable
+            movies={data}
+            sortColum={sortColum}
+            onDelete={this.handleDelete}
+            onLike={this.handleLike}
+            onSort={this.handleSort}
+          />
+          <Pagination
+            itemsCount={totalCount}
+            pageSize={pageSize}
+            currentPage={currentPage}
+            onPageChange={this.handlePageChange}
+          />
+        </div>
       </React.Fragment>
     );
   }
