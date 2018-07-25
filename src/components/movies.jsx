@@ -6,7 +6,7 @@ import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
 import { paginate } from "../utils/paginate";
 
-import Header from "./moviesHeader";
+import MoviesHeader from "./moviesHeader";
 import Filters from "./common/filters";
 import MoviesTable from "./moviesTable";
 import Pagination from "./common/pagination";
@@ -90,7 +90,7 @@ class Movies extends Component {
 
     return (
       <React.Fragment>
-        <Header moviesCount={totalCount} />
+        <MoviesHeader moviesCount={totalCount} history={this.props.history} />
         <Filters
           items={genres}
           selectedItem={selectedGenre}
